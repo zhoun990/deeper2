@@ -34,6 +34,20 @@ export interface Database {
   }
   public: {
     Tables: {
+      _GroupeMember: {
+        Row: {
+          A: number
+          B: number
+        }
+        Insert: {
+          A: number
+          B: number
+        }
+        Update: {
+          A?: number
+          B?: number
+        }
+      }
       _prisma_migrations: {
         Row: {
           applied_steps_count: number
@@ -66,12 +80,58 @@ export interface Database {
           started_at?: string
         }
       }
+      Groupe: {
+        Row: {
+          createdAt: string
+          id: number
+          updatedAt: string
+          userId: number
+        }
+        Insert: {
+          createdAt?: string
+          id?: number
+          updatedAt?: string
+          userId: number
+        }
+        Update: {
+          createdAt?: string
+          id?: number
+          updatedAt?: string
+          userId?: number
+        }
+      }
+      Permission: {
+        Row: {
+          createdAt: string
+          id: number
+          level: number
+          postId: number
+          updatedAt: string
+          userId: number
+        }
+        Insert: {
+          createdAt?: string
+          id?: number
+          level?: number
+          postId: number
+          updatedAt?: string
+          userId: number
+        }
+        Update: {
+          createdAt?: string
+          id?: number
+          level?: number
+          postId?: number
+          updatedAt?: string
+          userId?: number
+        }
+      }
       Post: {
         Row: {
           authorId: number
           createdAt: string
           id: number
-          published: boolean
+          isPublick: boolean
           title: string
           updatedAt: string
         }
@@ -79,7 +139,7 @@ export interface Database {
           authorId: number
           createdAt?: string
           id?: number
-          published?: boolean
+          isPublick?: boolean
           title: string
           updatedAt?: string
         }
@@ -87,7 +147,7 @@ export interface Database {
           authorId?: number
           createdAt?: string
           id?: number
-          published?: boolean
+          isPublick?: boolean
           title?: string
           updatedAt?: string
         }
@@ -99,7 +159,9 @@ export interface Database {
           email: string
           id: number
           name: string | null
+          profilePhotoURL: string | null
           role: Database["public"]["Enums"]["Role"]
+          updatedAt: string
         }
         Insert: {
           bio?: string | null
@@ -107,7 +169,9 @@ export interface Database {
           email: string
           id?: number
           name?: string | null
+          profilePhotoURL?: string | null
           role?: Database["public"]["Enums"]["Role"]
+          updatedAt?: string
         }
         Update: {
           bio?: string | null
@@ -115,7 +179,9 @@ export interface Database {
           email?: string
           id?: number
           name?: string | null
+          profilePhotoURL?: string | null
           role?: Database["public"]["Enums"]["Role"]
+          updatedAt?: string
         }
       }
     }

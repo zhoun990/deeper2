@@ -1,4 +1,4 @@
-import { publicProcedure, getUsers } from "../app/api/trpc/_trpc]";
+import { publicProcedure, getUsers } from "../pages/api/trpc/_trpc]";
 
 export function newFunction() {
   return publicProcedure.query(async () => {

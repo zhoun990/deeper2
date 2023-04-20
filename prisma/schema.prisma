@@ -1,44 +1,59 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["multiSchema"]
+  provider = "prisma-client-js"
+  // previewFeatures = ["multiSchema"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-  schemas   = ["public", "auth"]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // schemas  = ["auth", "public"]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
-  name      String?
-  role      Role     @default(USER)
-  posts     Post[]
-
-  @@schema("auth")
+  id              String       @id @default(dbgenerated("uuid_generate_v4()"))
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @default(now()) @updatedAt
+  email           String       @unique
+  name            String?
+  bio             String?
+  profilePhotoURL String?
+  role            Role         @default(USER)
+  groupes         Groupe[]     @relation("Groupes")
+  permissions     Permission[] @relation("Permissions")
+  posts           Post[]       @relation("Posts")
 }
 
-model Post {
+model Permission {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  published Boolean  @default(false)
-  title     String   @db.VarChar(255)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  level     Int      @default(0)
+  postId    Int
+  userId    String
+  Post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation("Permissions", fields: [userId], references: [id])
+}
 
-  @@schema("public")
+model Post {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  isPublick      Boolean      @default(false)
+  title          String       @db.VarChar(255)
+  authorId       String
+  permittedUsers Permission[]
+  author         User         @relation("Posts", fields: [authorId], references: [id])
+}
+
+model Groupe {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  userId    String
+  owner     User     @relation("Groupes", fields: [userId], references: [id])
 }
 
 enum Role {
   USER
   ADMIN
-
-  @@schema("public")
 }

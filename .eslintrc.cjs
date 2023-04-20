@@ -17,8 +17,9 @@ const config = {
       plugins: ["@typescript-eslint"],
       files: ["*.ts", "*.tsx"],
       rules: {
-        "@typescript-eslint/no-misused-promises": "warn",
-        "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/require-await": "warn",
       },
     },
   ],
