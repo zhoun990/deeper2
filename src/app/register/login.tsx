@@ -1,13 +1,15 @@
 "use client";
 
-import { useSupabase } from "../supabase-provider";
+import { useSupabase } from "../_components/supabase-provider";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { RedirectWithAuthState } from "../_components/RedirectWithAuthState";
 
 export default function Login() {
   const { supabase } = useSupabase();
 
   return (
+    // <RedirectWithAuthState>
     <div>
       <div className="flex justify-center">
         <div className="w-4/5">
@@ -26,9 +28,11 @@ export default function Login() {
               },
             }}
             theme="dark"
+            // showLinks
           />
         </div>
       </div>
     </div>
+    // </RedirectWithAuthState>
   );
 }

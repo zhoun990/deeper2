@@ -10,10 +10,10 @@ datasource db {
 }
 
 model User {
-  id              String       @id @default(dbgenerated("uuid_generate_v4()"))
+  id              String       @id
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @default(now()) @updatedAt
-  email           String       @unique
+  username        String       @unique @default(dbgenerated("uuid_generate_v4()"))
   name            String?
   bio             String?
   profilePhotoURL String?
@@ -21,6 +21,19 @@ model User {
   groupes         Groupe[]     @relation("Groupes")
   permissions     Permission[] @relation("Permissions")
   posts           Post[]       @relation("Posts")
+  follow          Follow[]     @relation("Follow")
+  follower        Follow[]     @relation("Follower")
+}
+
+model Follow {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  level     Int      @default(0)
+  toId      String
+  to        User     @relation("Follower", fields: [toId], references: [id])
+  fromId    String
+  from      User     @relation("Follow", fields: [fromId], references: [id])
 }
 
 model Permission {
@@ -30,7 +43,7 @@ model Permission {
   level     Int      @default(0)
   postId    Int
   userId    String
-  Post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
   user      User     @relation("Permissions", fields: [userId], references: [id])
 }
 
@@ -38,8 +51,9 @@ model Post {
   id             Int          @id @default(autoincrement())
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @default(now()) @updatedAt
-  isPublick      Boolean      @default(false)
-  title          String       @db.VarChar(255)
+  public         Int          @default(0)
+  follower       Int          @default(0)
+  text           String       @db.VarChar(255)
   authorId       String
   permittedUsers Permission[]
   author         User         @relation("Posts", fields: [authorId], references: [id])

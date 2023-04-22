@@ -34,50 +34,30 @@ export interface Database {
   }
   public: {
     Tables: {
-      _GroupeMember: {
+      Follow: {
         Row: {
-          A: number
-          B: number
+          createdAt: string
+          fromId: string
+          id: number
+          level: number
+          toId: string
+          updatedAt: string
         }
         Insert: {
-          A: number
-          B: number
+          createdAt?: string
+          fromId: string
+          id?: number
+          level?: number
+          toId: string
+          updatedAt?: string
         }
         Update: {
-          A?: number
-          B?: number
-        }
-      }
-      _prisma_migrations: {
-        Row: {
-          applied_steps_count: number
-          checksum: string
-          finished_at: string | null
-          id: string
-          logs: string | null
-          migration_name: string
-          rolled_back_at: string | null
-          started_at: string
-        }
-        Insert: {
-          applied_steps_count?: number
-          checksum: string
-          finished_at?: string | null
-          id: string
-          logs?: string | null
-          migration_name: string
-          rolled_back_at?: string | null
-          started_at?: string
-        }
-        Update: {
-          applied_steps_count?: number
-          checksum?: string
-          finished_at?: string | null
-          id?: string
-          logs?: string | null
-          migration_name?: string
-          rolled_back_at?: string | null
-          started_at?: string
+          createdAt?: string
+          fromId?: string
+          id?: number
+          level?: number
+          toId?: string
+          updatedAt?: string
         }
       }
       Groupe: {
@@ -85,19 +65,19 @@ export interface Database {
           createdAt: string
           id: number
           updatedAt: string
-          userId: number
+          userId: string
         }
         Insert: {
           createdAt?: string
           id?: number
           updatedAt?: string
-          userId: number
+          userId: string
         }
         Update: {
           createdAt?: string
           id?: number
           updatedAt?: string
-          userId?: number
+          userId?: string
         }
       }
       Permission: {
@@ -107,7 +87,7 @@ export interface Database {
           level: number
           postId: number
           updatedAt: string
-          userId: number
+          userId: string
         }
         Insert: {
           createdAt?: string
@@ -115,7 +95,7 @@ export interface Database {
           level?: number
           postId: number
           updatedAt?: string
-          userId: number
+          userId: string
         }
         Update: {
           createdAt?: string
@@ -123,32 +103,35 @@ export interface Database {
           level?: number
           postId?: number
           updatedAt?: string
-          userId?: number
+          userId?: string
         }
       }
       Post: {
         Row: {
-          authorId: number
+          authorId: string
           createdAt: string
+          follower: number
           id: number
-          isPublick: boolean
-          title: string
+          public: number
+          text: string
           updatedAt: string
         }
         Insert: {
-          authorId: number
+          authorId: string
           createdAt?: string
+          follower?: number
           id?: number
-          isPublick?: boolean
-          title: string
+          public?: number
+          text: string
           updatedAt?: string
         }
         Update: {
-          authorId?: number
+          authorId?: string
           createdAt?: string
+          follower?: number
           id?: number
-          isPublick?: boolean
-          title?: string
+          public?: number
+          text?: string
           updatedAt?: string
         }
       }
@@ -156,32 +139,32 @@ export interface Database {
         Row: {
           bio: string | null
           createdAt: string
-          email: string
-          id: number
+          id: string
           name: string | null
           profilePhotoURL: string | null
           role: Database["public"]["Enums"]["Role"]
           updatedAt: string
+          username: string
         }
         Insert: {
           bio?: string | null
           createdAt?: string
-          email: string
-          id?: number
+          id: string
           name?: string | null
           profilePhotoURL?: string | null
           role?: Database["public"]["Enums"]["Role"]
           updatedAt?: string
+          username?: string
         }
         Update: {
           bio?: string | null
           createdAt?: string
-          email?: string
-          id?: number
+          id?: string
           name?: string | null
           profilePhotoURL?: string | null
           role?: Database["public"]["Enums"]["Role"]
           updatedAt?: string
+          username?: string
         }
       }
     }

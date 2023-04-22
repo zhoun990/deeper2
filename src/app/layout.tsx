@@ -1,9 +1,9 @@
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
 import { type Database } from "~/lib/database.types";
-import { RedirectWithAuthState } from "./RedirectWithAuthState";
+import { RedirectWithAuthState } from "./_components/RedirectWithAuthState";
 import "./globals.css";
-import SupabaseProvider from "./supabase-provider";
+import SupabaseProvider from "./_components/supabase-provider";
 
 export const metadata = {
   title: "Create Next App",

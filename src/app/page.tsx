@@ -1,14 +1,11 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import Some from "./some";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/dist/client/components/headers";
-import { type Database } from "~/lib/database.types";
-import Login from "./register/login";
+import { cookies, headers } from "next/dist/client/components/headers";
+import { Inter } from "next/font/google";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-// import { PrismaClient } from "@prisma/client";
-// import { trpc } from "~/utils/trpc";
-// import { prisma } from "~/utils/prisma";
+import PostCreateView from "./_components/PostCreateView";
+import Logout from "./_components/logout";
+import { type Database } from "~/lib/database.types";
 const inter = Inter({ subsets: ["latin"] });
 export const revalidate = 0;
 export default async function Home() {
@@ -19,22 +16,29 @@ export default async function Home() {
     headers,
     cookies,
   });
-  const { data } = await supabase.from("Post").select("*");
-  console.log("^_^ Log \n file: page.tsx:26 \n data:", data);
-  const { data: auth } = await supabase.auth.getUser();
-  // if (auth) {
-  //   const data = await supabase
-  //     .from("User")
-  //     .select("*")
-  //     .eq("email", auth.user?.email);
-  //   if (data.data?.length === 0) redirect("/register");
-  // }
+  const { user } = (await supabase.auth.getUser()).data;
+  if (user) {
+    const { data } = await supabase
+      .from("User")
+      .select()
+      .eq("id", user.id)
+      .single();
+    if (!data) {
+      redirect("/register");
+    }
+    return (
+      <div>
+        {/* @ts-expect-error Server Component */}
+        <PostCreateView />
+        <Logout />
+        <Link href={`/${data.username}`}>Profile</Link>
+      </div>
+    );
+  }
 
   return (
     <div>
-      {JSON.stringify(auth)}
-      <Some />
-      <Login />
+      <Link href={"/register"}>Login</Link>
     </div>
   );
 }

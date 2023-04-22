@@ -20,6 +20,7 @@ const config = {
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/require-await": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "off",
       },
     },
   ],
@@ -28,8 +29,24 @@ const config = {
     project: path.join(__dirname, "tsconfig.json"),
   },
   plugins: ["@typescript-eslint"],
-  extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  extends: [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:tailwindcss/recommended",
+  ],
   rules: {
+    "import/order": [
+      "warn",
+      {
+        alphabetize: {
+          order: "asc",
+        },
+      },
+    ],
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
