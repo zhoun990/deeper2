@@ -1,8 +1,5 @@
-import { Post, type User } from "@prisma/client";
+import { type User } from "@prisma/client";
 import Image from "next/image";
-import Avatar from "./Avatar";
-import PostView from "~/app/_components/PostView";
-import { type Profile } from "~/utils/types";
 
 export const ProfileView = ({
   profile,

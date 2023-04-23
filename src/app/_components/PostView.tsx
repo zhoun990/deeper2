@@ -1,10 +1,8 @@
 "use client";
-import { type User, type Post } from "@prisma/client";
+import { type Post, type User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { type CSSProperties } from "react";
-import ClientLink from "./ClientLink";
-import { type Profile } from "~/utils/types";
 
 const PostView: React.FC<{
   post: Post;
