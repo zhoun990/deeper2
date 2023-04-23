@@ -13,20 +13,21 @@ export default function Register() {
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (username && displayname) {
-      await client.register
-        .post({
-          username,
-          displayname,
-          bio,
-        })
-        .then((res) => {
-          console.log("^_^ Log \n file: register.tsx:35 \n res:", res);
-          setIsUsernameAvailable(res.isUsernameAvailable);
-          if (res.succeeded) {
-            router.push("/");
-            // setStep(1);
-          }
-        });
+      await client(
+        "register",
+        "post"
+      )({
+        username,
+        displayname,
+        bio,
+      }).then((res) => {
+        console.log("^_^ Log \n file: register.tsx:35 \n res:", res);
+        setIsUsernameAvailable(res.isUsernameAvailable);
+        if (res.succeeded) {
+          router.push("/");
+          // setStep(1);
+        }
+      });
     }
   };
   // switch (step) {

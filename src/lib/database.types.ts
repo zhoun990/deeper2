@@ -34,12 +34,12 @@ export interface Database {
   }
   public: {
     Tables: {
-      Follow: {
+      Bell: {
         Row: {
           createdAt: string
           fromId: string
           id: number
-          level: number
+          notification: number
           toId: string
           updatedAt: string
         }
@@ -47,7 +47,7 @@ export interface Database {
           createdAt?: string
           fromId: string
           id?: number
-          level?: number
+          notification?: number
           toId: string
           updatedAt?: string
         }
@@ -55,7 +55,7 @@ export interface Database {
           createdAt?: string
           fromId?: string
           id?: number
-          level?: number
+          notification?: number
           toId?: string
           updatedAt?: string
         }

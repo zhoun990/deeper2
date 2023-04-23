@@ -21,19 +21,19 @@ model User {
   groupes         Groupe[]     @relation("Groupes")
   permissions     Permission[] @relation("Permissions")
   posts           Post[]       @relation("Posts")
-  follow          Follow[]     @relation("Follow")
-  follower        Follow[]     @relation("Follower")
+  belled          Bell[]       @relation("Belled")
+  bellMarker      Bell[]       @relation("BellMarker")
 }
 
-model Follow {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  level     Int      @default(0)
-  toId      String
-  to        User     @relation("Follower", fields: [toId], references: [id])
-  fromId    String
-  from      User     @relation("Follow", fields: [fromId], references: [id])
+model Bell {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  notification Int      @default(0)
+  toId         String
+  to           User     @relation("BellMarker", fields: [toId], references: [id])
+  fromId       String
+  from         User     @relation("Belled", fields: [fromId], references: [id])
 }
 
 model Permission {

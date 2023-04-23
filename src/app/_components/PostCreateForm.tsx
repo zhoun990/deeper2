@@ -17,7 +17,10 @@ export default function PostCreateForm({ users }: { users: Profile[] }) {
   const router = useRouter();
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await client.post.post({ text, permittedUsers,public:isPublic });
+    const res = await client(
+      "post",
+      "post"
+    )({ text, permittedUsers, public: isPublic });
     if (res.succeeded) {
       setText("");
       alert("投稿しました");
