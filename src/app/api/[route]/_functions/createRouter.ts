@@ -17,32 +17,19 @@ type Client<T extends Producer> = {
     [Method in keyof T[Path]]: ClientMethod<T[Path][Method]>;
   };
 };
-export const createClient = <T extends Producer>() =>
-  // : { client: Client<T> }
-  {
-    // const client: Client<T> = {} as Client<T>;
-    // for (const path in procedures) {
-    //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    //   client[path as keyof T] = {} as any;
-    //   for (const method in procedures[path]) {
-    //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    //     client[path as keyof T][method as keyof T[keyof T]] = ((args: any) => {
-    //       console.log("^_^ Log \n file: route.ts:70 \n path:", path);
+export const createClient =
+  <T extends Producer>(): (<Path extends keyof T, Method extends keyof T[Path]>(
+    path: Path,
+    method: Method
+  ) => ClientMethod<T[Path][Method]>) =>
+  (path, method) =>
+  (args) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    fetch(`/api/${String(path)}`, {
+      method: String(method).toUpperCase() as APIMethods,
+      body: args ? JSON.stringify(args) : undefined,
+    }).then((res) => res.json()) as any;
 
-    //       return fetch(`/api/${String(path)}`, {
-    //         method: method.toUpperCase() as APIMethods,
-    //         body: args ? JSON.stringify(args) : undefined,
-    //       }).then((res) => res.json());
-    //     }) as any;
-    //   }
-    // }
-    return (path: keyof T, method: keyof T[keyof T]) => (args: any) => {
-      return fetch(`/api/${String(path)}`, {
-        method: String(method).toUpperCase() as APIMethods,
-        body: args ? JSON.stringify(args) : undefined,
-      }).then((res) => res.json());
-    };
-  };
 export const createRouter = <T extends Producer>(
   procedures: T
 ): {
