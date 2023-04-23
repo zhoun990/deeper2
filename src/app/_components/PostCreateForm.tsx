@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState, useEffect, FC } from "react";
-import { client } from "../api/[route]/route";
 import { useSupabase } from "./supabase-provider";
+import client from "~/utils/client";
 import { type Profile } from "~/utils/types";
 
 export default function PostCreateForm({ users }: { users: Profile[] }) {

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { client } from "../api/[route]/route";
+import client from "~/utils/client";
 export default function Register() {
   const [step, setStep] = useState(0);
   const [username, setUsername] = useState("");

@@ -46,10 +46,11 @@ export const ProfileView = ({
             <div className="h-28 w-28 rounded-full border-2 border-gray-300 bg-gray-600"></div>
           )}
           <div>
-            <h3 className="text-2xl font-semibold">{name || "匿名"}</h3>
+            <h3 className="text-2xl font-semibold">{name}</h3>
             <div className="text-gray-400">{username}</div>
             {role === "ADMIN" && <div> 管理者</div>}
           </div>
+          <div className="border"></div>
         </div>
         <div className="mt-6">
           {/* <div className="mb-2 font-semibold">自己紹介:</div> */}

@@ -1,4 +1,4 @@
-import { createClient, createRouter } from "./_functions/createRouter";
+import { createRouter } from "./_functions/createRouter";
 import post from "./_functions/post";
 import register from "./_functions/register";
 const router = {

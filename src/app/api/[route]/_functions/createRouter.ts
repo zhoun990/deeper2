@@ -39,52 +39,54 @@ export const createRouter = <T extends Producer>(
       params: { route: keyof T };
     }
   ) => Promise<NextResponse | Response>;
-} & {
-  client: <Path extends keyof T, Method extends keyof T[Path]>(
-    path: Path,
-    method: Method
-  ) => ClientMethod<T[Path][Method]>;
-} => {
-  const procedure = async (
-    req: NextRequest,
-    path: keyof T,
-    type: RouterActions
-  ) => {
-    const p = procedures[path]?.[type];
-    if (!p) {
-      return NextResponse.error();
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const body = await req.json();
-    return NextResponse.json(await p(body, req));
-  };
-
-  // const client: Client<T> = {} as Client<T>;
-  // for (const path in procedures) {
-  //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  //   client[path as keyof T] = {} as any;
-  //   for (const method in procedures[path]) {
-  //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  //     client[path as keyof T][method as keyof T[keyof T]] = ((args: any) => {
-  //       console.log("^_^ Log \n file: route.ts:70 \n path:", path);
-
-  //       return fetch(`/api/${String(path)}`, {
-  //         method: method.toUpperCase() as APIMethods,
-  //         body: args ? JSON.stringify(args) : undefined,
-  //       }).then((res) => res.json());
-  //     }) as any;
-  //   }
+} =>
+  // & {
+  // client: <Path extends keyof T, Method extends keyof T[Path]>(
+  //   path: Path,
+  //   method: Method
+  // ) => ClientMethod<T[Path][Method]>;
   // }
-  return {
-    POST: async (req, { params }) => procedure(req, params.route, "post"),
-    GET: async (req, { params }) => procedure(req, params.route, "get"),
-    PUT: async (req, { params }) => procedure(req, params.route, "put"),
-    DELETE: async (req, { params }) => procedure(req, params.route, "delete"),
-    client: (path, method) => (args) =>
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      fetch(`/api/${String(path)}`, {
-        method: String(method).toUpperCase() as APIMethods,
-        body: args ? JSON.stringify(args) : undefined,
-      }).then((res) => res.json()) as any,
+  {
+    const procedure = async (
+      req: NextRequest,
+      path: keyof T,
+      type: RouterActions
+    ) => {
+      const p = procedures[path]?.[type];
+      if (!p) {
+        return NextResponse.error();
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const body = await req.json();
+      return NextResponse.json(await p(body, req));
+    };
+
+    // const client: Client<T> = {} as Client<T>;
+    // for (const path in procedures) {
+    //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    //   client[path as keyof T] = {} as any;
+    //   for (const method in procedures[path]) {
+    //     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    //     client[path as keyof T][method as keyof T[keyof T]] = ((args: any) => {
+    //       console.log("^_^ Log \n file: route.ts:70 \n path:", path);
+
+    //       return fetch(`/api/${String(path)}`, {
+    //         method: method.toUpperCase() as APIMethods,
+    //         body: args ? JSON.stringify(args) : undefined,
+    //       }).then((res) => res.json());
+    //     }) as any;
+    //   }
+    // }
+    return {
+      POST: async (req, { params }) => procedure(req, params.route, "post"),
+      GET: async (req, { params }) => procedure(req, params.route, "get"),
+      PUT: async (req, { params }) => procedure(req, params.route, "put"),
+      DELETE: async (req, { params }) => procedure(req, params.route, "delete"),
+      // client: (path, method) => (args) =>
+      //   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      //   fetch(`/api/${String(path)}`, {
+      //     method: String(method).toUpperCase() as APIMethods,
+      //     body: args ? JSON.stringify(args) : undefined,
+      //   }).then((res) => res.json()) as any,
+    };
   };
-};
