@@ -20,14 +20,16 @@ type Client<T extends Producer> = {
 export const createClient =
   <T extends Producer>(): (<Path extends keyof T, Method extends keyof T[Path]>(
     path: Path,
-    method: Method
+    method: Method,
+    options?: RequestInit
   ) => ClientMethod<T[Path][Method]>) =>
-  (path, method) =>
+  (path, method, options) =>
   (args) =>
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     fetch(`/api/${String(path)}`, {
       method: String(method).toUpperCase() as APIMethods,
       body: args ? JSON.stringify(args) : undefined,
+      ...options,
     }).then((res) => res.json()) as any;
 
 export const createRouter = <T extends Producer>(

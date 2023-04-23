@@ -38,7 +38,6 @@ export interface Database {
         Row: {
           createdAt: string
           fromId: string
-          id: number
           notification: number
           toId: string
           updatedAt: string
@@ -46,7 +45,6 @@ export interface Database {
         Insert: {
           createdAt?: string
           fromId: string
-          id?: number
           notification?: number
           toId: string
           updatedAt?: string
@@ -54,7 +52,6 @@ export interface Database {
         Update: {
           createdAt?: string
           fromId?: string
-          id?: number
           notification?: number
           toId?: string
           updatedAt?: string

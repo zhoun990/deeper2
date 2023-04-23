@@ -41,24 +41,43 @@ export default async function Home({
           ],
         },
       },
+      bellMarked: { select: { toId: true } },
+      bellMarker: { select: { fromId: true } },
     },
   });
   if (!profile) {
     return <UserPageNotFound />;
   }
+  let isBellMarked = false;
+  if (!user || profile.id !== user.id) {
+    isBellMarked = profile.bellMarker.some((v) => v.fromId === user?.id);
+
+    profile.bellMarker = [];
+    profile.bellMarked = [];
+  }
 
   return (
-    <div className="min-h-screen bg-black">
-      <ProfileView profile={profile} isMyPage={true} />
-      {profile.posts
-        .sort((a, b) => {
-          return b.createdAt.getTime() - a.createdAt.getTime();
-        })
-        .map((post) => (
-          <ClientLink key={post.id} href={`/${profile.username}/${post.id}`}>
-            <PostView post={post} profile={profile}/>
-          </ClientLink>
-        ))}
+    <div className="flex h-screen flex-col overflow-hidden">
+      <div className="overflow-y-auto">
+        <div className="sticky top-0  bg-black">
+          <ProfileView
+            profile={profile}
+            isBellMarked={isBellMarked}
+            isMyPage={!!user && profile.id === user.id}
+            bellMarked={profile.bellMarked.map((v) => v.toId)}
+            bellMarker={profile.bellMarker.map((v) => v.fromId)}
+          />
+        </div>
+        {profile.posts
+          .sort((a, b) => {
+            return b.createdAt.getTime() - a.createdAt.getTime();
+          })
+          .map((post) => (
+            <ClientLink key={post.id} href={`/${profile.username}/${post.id}`}>
+              <PostView post={post} profile={profile} />
+            </ClientLink>
+          ))}
+      </div>
     </div>
   );
 }

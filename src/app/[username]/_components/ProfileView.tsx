@@ -1,12 +1,20 @@
 import { type User } from "@prisma/client";
 import Image from "next/image";
+import { Suspense } from "react";
+import { BellButton } from "./BellButton";
 
 export const ProfileView = ({
   profile,
   isMyPage,
+  isBellMarked,
+  bellMarked = [],
+  bellMarker = [],
 }: {
   profile: User;
   isMyPage: boolean;
+  isBellMarked: boolean;
+  bellMarked?: string[];
+  bellMarker?: string[];
 }) => {
   const {
     bio,
@@ -45,9 +53,36 @@ export const ProfileView = ({
           <div>
             <h3 className="text-2xl font-semibold">{name}</h3>
             <div className="text-gray-400">{username}</div>
-            {role === "ADMIN" && <div> 管理者</div>}
+            {role === "ADMIN" && <div>管理者</div>}
           </div>
-          <div className="h-full grow border">bell</div>
+          {isMyPage ? (
+            <div className="flex h-full grow justify-around bg-black p-4">
+              <div className="flex w-1/2 flex-col items-center border-r-2 border-white">
+                <div className="mb-2 text-lg font-bold text-white">
+                  ベル登録中
+                </div>
+                <div className="text-4xl font-semibold text-white">
+                  {bellMarked.length}
+                </div>
+              </div>
+              <div className="flex w-1/2 flex-col items-center">
+                <div className="mb-2 text-lg font-bold text-white">
+                  ベル登録者
+                </div>
+                <div className="text-4xl font-semibold text-white">
+                  {bellMarker.length}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex h-full grow justify-around bg-black p-4">
+              <div className="flex w-full flex-col items-center">
+                <Suspense fallback={<p>Loading feed...</p>}>
+                  <BellButton isBellMarked={isBellMarked} profile={profile} />
+                </Suspense>
+              </div>
+            </div>
+          )}
         </div>
         <div className="mt-6">
           {/* <div className="mb-2 font-semibold">自己紹介:</div> */}
