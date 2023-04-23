@@ -25,12 +25,12 @@ export default async function Home({
           OR: [
             { authorId: user?.id },
             { public: { gte: 1 } },
-            user
-              ? {
-                  follower: { gte: 1 },
-                  author: { follower: { some: { fromId: user.id } } },
-                }
-              : {},
+            // user
+            //   ? {
+            //       follower: { gte: 1 },
+            //       author: { follower: { some: { fromId: user.id } } },
+            //     }
+            //   : {},
             user
               ? {
                   permittedUsers: {

@@ -1,11 +1,9 @@
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/dist/client/components/headers";
-import { Inter } from "next/font/google";
-import { redirect } from "next/navigation";
-import PostView from "../../_components/PostView";
-import { UserPageNotFound } from "../_components/UserPageNotFound";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
+import PostView from "../../_components/PostView";
+import { UserPageNotFound } from "../_components/UserPageNotFound";
 // export const revalidate = 0;
 export default async function Home({
   params,
@@ -29,10 +27,10 @@ export default async function Home({
                   some: { userId: user.id, level: { gte: 1 } },
                 },
               },
-              {
-                follower: { gte: 1 },
-                author: { follower: { some: { fromId: user.id } } },
-              },
+              // {
+              //   follower: { gte: 1 },
+              //   author: { follower: { some: { fromId: user.id } } },
+              // },
             ]
           : []),
         { public: { gte: 1 } },

@@ -1,4 +1,4 @@
-import { Post, User } from "@prisma/client";
+import { Post, type User } from "@prisma/client";
 import Image from "next/image";
 import Avatar from "./Avatar";
 import PostView from "~/app/_components/PostView";
@@ -50,7 +50,7 @@ export const ProfileView = ({
             <div className="text-gray-400">{username}</div>
             {role === "ADMIN" && <div> 管理者</div>}
           </div>
-          <div className="border"></div>
+          <div className="h-full grow border">bell</div>
         </div>
         <div className="mt-6">
           {/* <div className="mb-2 font-semibold">自己紹介:</div> */}

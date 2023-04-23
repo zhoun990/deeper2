@@ -17,10 +17,10 @@ export const Timeline = async () => {
         { public: { gte: 1 } },
         ...(user
           ? [
-              {
-                follower: { gte: 1 },
-                author: { follower: { some: { fromId: user.id } } },
-              },
+              // {
+              //   follower: { gte: 1 },
+              //   author: { follower: { some: { fromId: user.id } } },
+              // },
               {
                 permittedUsers: {
                   some: { userId: user.id, level: { gte: 1 } },
