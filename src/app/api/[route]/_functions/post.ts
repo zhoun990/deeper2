@@ -5,6 +5,7 @@ const post = {
   post: async (body: {
     text: string;
     permittedUsers: { uid: string; level: number }[];
+    public: number;
   }) => {
     const res = { succeeded: false, reason: "" };
     const supabase = createRouteHandlerSupabaseClient<Database>({
@@ -22,7 +23,7 @@ const post = {
     }
     await supabase
       .from("Post")
-      .insert({ authorId: user.id, text: body.text })
+      .insert({ authorId: user.id, text: body.text, public: body.public })
       .select()
       .single()
       .then(async (result) => {

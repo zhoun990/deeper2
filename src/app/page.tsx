@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import PostCreateView from "./_components/PostCreateView";
+import { Timeline } from "./_components/Timeline";
 import Logout from "./_components/logout";
 import { type Database } from "~/lib/database.types";
 const inter = Inter({ subsets: ["latin"] });
@@ -32,6 +33,8 @@ export default async function Home() {
         <PostCreateView />
         <Logout />
         <Link href={`/${data.username}`}>Profile</Link>
+        {/* @ts-expect-error Server Component */}
+        <Timeline />
       </div>
     );
   }
@@ -39,6 +42,8 @@ export default async function Home() {
   return (
     <div>
       <Link href={"/register"}>Login</Link>
+      {/* @ts-expect-error Server Component */}
+      <Timeline />
     </div>
   );
 }

@@ -12,12 +12,12 @@ export default function PostCreateForm({ users }: { users: Profile[] }) {
   const [isPublic, setIsPublic] = useState(0);
   const [permittedUsers, setPermittedUsers] = useState<
     { uid: string; level: number }[]
-    >([]);
+  >([]);
 
   const router = useRouter();
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await client.post.post({ text, permittedUsers });
+    const res = await client.post.post({ text, permittedUsers,public:isPublic });
     if (res.succeeded) {
       setText("");
       alert("投稿しました");
@@ -46,6 +46,18 @@ export default function PostCreateForm({ users }: { users: Profile[] }) {
         </div>
       </div>
       <div className="flex flex-wrap bg-black">
+        <div
+          className="m-1 cursor-pointer select-none rounded-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 px-3 py-2 text-white"
+          style={{
+            borderWidth: 2,
+            borderColor: isPublic ? "white" : "transparent",
+          }}
+          onClick={() => {
+            setIsPublic((c) => (c === 0 ? 1 : 0));
+          }}
+        >
+          {isPublic ? "パブリック" : "プライベート"}
+        </div>
         {users.map((user) => (
           <div
             key={user.id}

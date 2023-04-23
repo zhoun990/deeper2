@@ -12,8 +12,6 @@ const PostView: React.FC<{
   className?: string;
   style?: CSSProperties;
 }> = ({ post, profile, className, style }) => {
-  console.log("^_^ Log \n file: PostView.tsx:37 \n post:");
-
   const formatDate = (newDate: Date) => {
     // const newDate = new Date(date);
     return `${newDate.getFullYear()}/${
@@ -23,7 +21,7 @@ const PostView: React.FC<{
 
   return (
     <div
-      className={"mx-auto max-w-xl px-4 text-white " + (className || "")}
+      className={"mx-auto max-w-xl p-4 text-white " + (className || "")}
       style={style}
     >
       <div className="h-full w-full rounded-lg bg-gray-800 p-4">

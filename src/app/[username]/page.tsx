@@ -6,7 +6,7 @@ import { ProfileView } from "./_components/ProfileView";
 import { UserPageNotFound } from "./_components/UserPageNotFound";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
-// export const revalidate = 0;
+export const revalidate = 0;
 export default async function Home({
   params,
 }: {
@@ -52,13 +52,11 @@ export default async function Home({
       <ProfileView profile={profile} isMyPage={true} />
       {profile.posts
         .sort((a, b) => {
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
+          return b.createdAt.getTime() - a.createdAt.getTime();
         })
         .map((post) => (
           <ClientLink key={post.id} href={`/${profile.username}/${post.id}`}>
-            <PostView post={post} profile={profile} className="mt-2" />
+            <PostView post={post} profile={profile}/>
           </ClientLink>
         ))}
     </div>
