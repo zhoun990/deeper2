@@ -34,47 +34,85 @@ export interface Database {
   }
   public: {
     Tables: {
-      Bell: {
+      Favorite: {
         Row: {
           createdAt: string
           fromId: string
-          notification: number
+          permissionLevel: number
           toId: string
           updatedAt: string
         }
         Insert: {
           createdAt?: string
           fromId: string
-          notification?: number
+          permissionLevel?: number
           toId: string
           updatedAt?: string
         }
         Update: {
           createdAt?: string
           fromId?: string
-          notification?: number
+          permissionLevel?: number
           toId?: string
           updatedAt?: string
         }
       }
-      Groupe: {
+      Group: {
+        Row: {
+          allowJoin: boolean
+          createdAt: string
+          description: string | null
+          id: number
+          isPrimary: boolean
+          isPublic: boolean
+          title: string
+          updatedAt: string
+        }
+        Insert: {
+          allowJoin?: boolean
+          createdAt?: string
+          description?: string | null
+          id?: number
+          isPrimary?: boolean
+          isPublic?: boolean
+          title: string
+          updatedAt?: string
+        }
+        Update: {
+          allowJoin?: boolean
+          createdAt?: string
+          description?: string | null
+          id?: number
+          isPrimary?: boolean
+          isPublic?: boolean
+          title?: string
+          updatedAt?: string
+        }
+      }
+      GroupMember: {
         Row: {
           createdAt: string
-          id: number
+          groupId: number
+          hidden: boolean
+          memberId: string
+          permission: Database["public"]["Enums"]["GroupPermission"][] | null
           updatedAt: string
-          userId: string
         }
         Insert: {
           createdAt?: string
-          id?: number
+          groupId: number
+          hidden?: boolean
+          memberId: string
+          permission?: Database["public"]["Enums"]["GroupPermission"][] | null
           updatedAt?: string
-          userId: string
         }
         Update: {
           createdAt?: string
-          id?: number
+          groupId?: number
+          hidden?: boolean
+          memberId?: string
+          permission?: Database["public"]["Enums"]["GroupPermission"][] | null
           updatedAt?: string
-          userId?: string
         }
       }
       Permission: {
@@ -110,6 +148,7 @@ export interface Database {
           follower: number
           id: number
           public: number
+          replyId: number | null
           text: string
           updatedAt: string
         }
@@ -119,6 +158,7 @@ export interface Database {
           follower?: number
           id?: number
           public?: number
+          replyId?: number | null
           text: string
           updatedAt?: string
         }
@@ -128,6 +168,7 @@ export interface Database {
           follower?: number
           id?: number
           public?: number
+          replyId?: number | null
           text?: string
           updatedAt?: string
         }
@@ -172,6 +213,13 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
+      GroupPermission:
+        | "EditTitle"
+        | "EditDescription"
+        | "EditMembersPermission"
+        | "EditSelfPermission"
+        | "EditGroupPermission"
+        | "Owner"
       Role: "USER" | "ADMIN"
     }
     CompositeTypes: {

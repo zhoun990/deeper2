@@ -63,10 +63,10 @@ export default async function RootLayout({
                                 d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                               ></path>
                             </svg>
-                            <span className="ml-4"> Overview</span>
+                            <span className="ml-4"> タイムライン</span>
                           </Item>
 
-                          <Item href="/">
+                          {/* <Item href="/">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-4 w-4"
@@ -82,7 +82,7 @@ export default async function RootLayout({
                               ></path>
                             </svg>
                             <span className="ml-4">Chat</span>
-                          </Item>
+                          </Item> */}
                           {profile && (
                             <Item href={`/${profile.username}`}>
                               <svg
@@ -102,7 +102,7 @@ export default async function RootLayout({
                               <span className="ml-4">プロフィール</span>
                             </Item>
                           )}
-                          <Item href="/">
+                          {/* <Item href="/">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-4 w-4"
@@ -124,13 +124,13 @@ export default async function RootLayout({
                               ></path>
                             </svg>
                             <span className="ml-4">Settings</span>
-                          </Item>
+                          </Item> */}
                         </ul>
-                        <p className="px-4 pt-4 font-medium uppercase text-neutral-200">
+                        {/* <p className="px-4 pt-4 font-medium uppercase text-neutral-200">
                           Shortcuts
-                        </p>
+                        </p> */}
                         <ul>
-                          <Item href="/">
+                          {/* <Item href="/">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               className="h-4 w-4"
@@ -186,7 +186,7 @@ export default async function RootLayout({
                               ></path>
                             </svg>
                             <span className="ml-4"> Dashboard</span>
-                          </Item>
+                          </Item> */}
                           {user && <LogoutItem />}
                         </ul>
                       </nav>

@@ -1,13 +1,24 @@
+import { type Post, type User } from "@prisma/client";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
 import { type Database } from "~/lib/database.types";
+import { prisma } from "~/lib/prisma";
 const post = {
   post: async (body: {
     text: string;
     permittedUsers: { uid: string; level: number }[];
     public: number;
+    replyId?: number;
   }) => {
-    const res = { succeeded: false, reason: "" };
+    const res = {
+      succeeded: false,
+      reason: "",
+      data: null as
+        | (Post & {
+            author: User;
+          })
+        | null,
+    };
     const supabase = createRouteHandlerSupabaseClient<Database>({
       headers,
       cookies,
@@ -21,19 +32,26 @@ const post = {
       res.reason = "not logged in";
       return res;
     }
-    await supabase
-      .from("Post")
-      .insert({ authorId: user.id, text: body.text, public: body.public })
-      .select()
-      .single()
+    //prismaで書き換える
+    await prisma.post
+      .create({
+        data: {
+          authorId: user.id,
+          text: body.text,
+          public: body.public,
+          replyId: body.replyId,
+        },
+        include: { author: true },
+      })
       .then(async (result) => {
-        const postId = result.data?.id;
+        const postId = result.id;
         if (!postId) return;
         console.log(
           "^_^ Log \n file: post.ts:24 \n result:",
-          result.data?.id,
+          postId,
           body.permittedUsers
         );
+        res.data = result;
         for (const permittedUser of body.permittedUsers) {
           const result = await supabase.from("Permission").insert({
             postId,

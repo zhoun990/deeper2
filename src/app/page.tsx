@@ -7,6 +7,7 @@ import PostCreateView from "./_components/PostCreateView";
 import { Timeline } from "./_components/Timeline";
 import Logout from "./_components/logout";
 import { type Database } from "~/lib/database.types";
+import { prisma } from "~/lib/prisma";
 const inter = Inter({ subsets: ["latin"] });
 export const revalidate = 0;
 export default async function Home() {
@@ -19,6 +20,7 @@ export default async function Home() {
   });
   const { user } = (await supabase.auth.getUser()).data;
   if (user) {
+   
     const { data } = await supabase
       .from("User")
       .select()
@@ -31,8 +33,8 @@ export default async function Home() {
       <div>
         {/* @ts-expect-error Server Component */}
         <PostCreateView />
-        <Logout />
-        <Link href={`/${data.username}`}>Profile</Link>
+        {/* <Logout />
+        <Link href={`/${data.username}`}>Profile</Link> */}
         {/* @ts-expect-error Server Component */}
         <Timeline />
       </div>
@@ -41,7 +43,7 @@ export default async function Home() {
 
   return (
     <div>
-      <Link href={"/register"}>Login</Link>
+      {/* <Link href={"/register"}>Login</Link> */}
       {/* @ts-expect-error Server Component */}
       <Timeline />
     </div>

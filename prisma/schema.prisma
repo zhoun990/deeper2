@@ -10,29 +10,31 @@ datasource db {
 }
 
 model User {
-  id              String       @id
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @default(now()) @updatedAt
-  username        String       @unique @default(dbgenerated("uuid_generate_v4()"))
+  id              String        @id
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+  username        String        @unique @default(dbgenerated("uuid_generate_v4()"))
   name            String?
   bio             String?
   profilePhotoURL String?
-  role            Role         @default(USER)
-  groupes         Groupe[]     @relation("Groupes")
-  permissions     Permission[] @relation("Permissions")
-  posts           Post[]       @relation("Posts")
-  bellMarked      Bell[]       @relation("BellMarked")
-  bellMarker      Bell[]       @relation("BellMarker")
+  role            Role          @default(USER)
+  // groups         Group[]     @relation("Groups")
+  permissions     Permission[]  @relation("Permissions")
+  posts           Post[]        @relation("Posts")
+  groups          GroupMember[] @relation("Groups")
+  favoritedBy     Favorite[]    @relation("FavoritedBy")
+  favorite        Favorite[]    @relation("Favorite")
 }
 
-model Bell {
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @default(now()) @updatedAt
-  notification Int      @default(0)
-  toId         String
-  to           User     @relation("BellMarker", fields: [toId], references: [id])
-  fromId       String
-  from         User     @relation("BellMarked", fields: [fromId], references: [id])
+model Favorite {
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now()) @updatedAt
+  permissionLevel Int      @default(0)
+  toId            String
+  to              User     @relation("FavoritedBy", fields: [toId], references: [id])
+  fromId          String
+  from            User     @relation("Favorite", fields: [fromId], references: [id])
+
   @@id([fromId, toId])
 }
 
@@ -43,7 +45,7 @@ model Permission {
   level     Int      @default(0)
   postId    Int
   userId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation("PermittedUsers", fields: [postId], references: [id])
   user      User     @relation("Permissions", fields: [userId], references: [id])
 }
 
@@ -55,16 +57,45 @@ model Post {
   follower       Int          @default(0)
   text           String       @db.VarChar(255)
   authorId       String
-  permittedUsers Permission[]
+  replyId        Int?
   author         User         @relation("Posts", fields: [authorId], references: [id])
+  reply          Post?         @relation("Replies", fields: [replyId], references: [id])
+  replies        Post[]       @relation("Replies")
+  permittedUsers Permission[] @relation("PermittedUsers")
 }
 
-model Groupe {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  userId    String
-  owner     User     @relation("Groupes", fields: [userId], references: [id])
+model Group {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String?
+  allowJoin   Boolean       @default(true)
+  isPublic    Boolean       @default(false)
+  isPrimary   Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now()) @updatedAt
+  members     GroupMember[]
+}
+
+model GroupMember {
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @default(now()) @updatedAt
+  permission GroupPermission[]
+  memberId   String
+  member     User              @relation("Groups", fields: [memberId], references: [id])
+  groupId    Int
+  group      Group             @relation(fields: [groupId], references: [id])
+  hidden     Boolean           @default(false)
+
+  @@id([groupId, memberId])
+}
+
+enum GroupPermission {
+  EditTitle
+  EditDescription
+  EditMembersPermission
+  EditSelfPermission
+  EditGroupPermission
+  Owner
 }
 
 enum Role {

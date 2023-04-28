@@ -1,12 +1,18 @@
 "use client";
-import { type User } from "@prisma/client";
+import { type Post, type User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState, useEffect, FC } from "react";
-import PostCreateInput from "./PostCreateInput";
-import { useSupabase } from "./supabase-provider";
+import PostCreateInput from "~/app/_components/PostCreateInput";
+import Switch from "~/app/_components/Switch";
 import client from "~/utils/client";
 
-export default function PostCreateForm({ users = [] }: { users?: User[] }) {
+export default function ReplyCreateForm({
+  users = [],
+  post,
+}: {
+  users?: User[];
+  post: Post;
+}) {
   const [text, setText] = useState("");
   const [isPublic, setIsPublic] = useState(0);
   const [permittedUsers, setPermittedUsers] = useState<
@@ -19,24 +25,23 @@ export default function PostCreateForm({ users = [] }: { users?: User[] }) {
     const res = await client(
       "post",
       "post"
-    )({ text, permittedUsers, public: isPublic });
-    if (res.succeeded) {
+    )({ text, permittedUsers, public: isPublic, replyId: post.id });
+    if (res.succeeded&&res.data) {
       setText("");
-      alert("投稿しました");
+      router.push(`/${res.data.author.username}/${res.data.id}`);
     } else {
       alert("失敗しました");
     }
   };
 
   return (
-    <form className="w-full max-w-lg space-y-6" onSubmit={onSubmit}>
-      <PostCreateInput
-        text={text}
-        setText={setText}
-        title="What's happening?"
-      />
+    <form
+      className="mx-auto mt-4 w-full max-w-lg space-y-6"
+      onSubmit={onSubmit}
+    >
+      <PostCreateInput text={text} setText={setText} title="返信を作成" />
       <div className="flex flex-wrap">
-        <div
+        {/* <div
           className="m-1 cursor-pointer select-none rounded-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 px-3 py-2 text-white"
           style={{
             borderWidth: 2,
@@ -47,6 +52,15 @@ export default function PostCreateForm({ users = [] }: { users?: User[] }) {
           }}
         >
           {isPublic ? "パブリック" : "プライベート"}
+        </div> */}
+        <div className="flex items-center">
+          <Switch
+            checked={isPublic === 1}
+            onChange={() => {
+              setIsPublic((c) => (c === 0 ? 1 : 0));
+            }}
+          />
+          <div className="ml-3">この投稿を閲覧可能なユーザーに公開する</div>
         </div>
         {users.map((user) => (
           <div
