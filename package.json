@@ -9,7 +9,7 @@
     "start": "next start",
     "mg": "npx prisma migrate dev && pnpm gen && pnpm pgen",
     "push": "npx prisma db push && pnpm gen && pnpm pgen",
-    "push-remote": "npx prisma db push && pnpm pgen",
+    "push-remote": "npx prisma db push",
     "gen": "supabase gen types typescript --local > src/lib/database.types.ts",
     "npx prisma db pull": "npx prisma db pull",
     "supabase start": "supabase start",

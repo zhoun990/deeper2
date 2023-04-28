@@ -1,6 +1,5 @@
 import { createRouter } from "./_functions/createRouter";
 import favorite from "./_functions/favorite";
-import getBell from "./_functions/getBell";
 import group from "./_functions/group";
 import groupMember from "./_functions/groupMember";
 import post from "./_functions/post";
@@ -9,7 +8,6 @@ const router = {
   post,
   register,
   favorite,
-  getBell,
   group,
   groupMember,
 };
