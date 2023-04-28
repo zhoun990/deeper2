@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "turbo": "next dev --turbo",
-    "build": "pnpm pgen && pnpm gen && next build",
+    "build": "pnpm pgen && next build",
     "start": "next start",
     "mg": "npx prisma migrate dev && pnpm gen && pnpm pgen",
     "push": "npx prisma db push && pnpm gen && pnpm pgen",
