@@ -1,6 +1,7 @@
 "use client";
 import { type User } from "@prisma/client";
 import { useEffect, useState } from "react";
+import IconButton from "~/app/_components/IconButton";
 import client from "~/utils/client";
 export const BellButton = ({
   // isBellMarked,
@@ -33,10 +34,7 @@ export const BellButton = ({
     return null;
   }
   return (
-    <button
-      className={
-        "rounded-xl bg-gray-800 p-4 text-center text-base font-medium text-white transition duration-500 ease-in-out hover:bg-gray-500 focus:outline-none"
-      }
+    <IconButton
       onClick={() => {
         (bellMarked > 0
           ? client("favorite", "delete")(null, { uid: profile.id })
@@ -79,6 +77,6 @@ export const BellButton = ({
           />
         </svg>
       )}
-    </button>
+    </IconButton>
   );
 };

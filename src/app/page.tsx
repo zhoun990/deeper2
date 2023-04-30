@@ -20,23 +20,23 @@ export default async function Home() {
   });
   const { user } = (await supabase.auth.getUser()).data;
   if (user) {
-   
-    const { data } = await supabase
-      .from("User")
-      .select()
-      .eq("id", user.id)
-      .single();
-    if (!data) {
+    if (!(await prisma.user.findUnique({ where: { id: user.id } }))) {
+      console.warn("redirect from '/'. no user data:", user);
       redirect("/register");
     }
     return (
-      <div>
-        {/* @ts-expect-error Server Component */}
-        <PostCreateView />
+      <div className="flex flex-col 2xl:flex-row-reverse">
+        <div className="2xl:sticky 2xl:top-0">
+          {/* @ts-expect-error Server Component */}
+          <PostCreateView />
+        </div>
+
         {/* <Logout />
         <Link href={`/${data.username}`}>Profile</Link> */}
-        {/* @ts-expect-error Server Component */}
-        <Timeline />
+        <div className="grow 2xl:h-screen 2xl:overflow-y-auto p-5">
+          {/* @ts-expect-error Server Component */}
+          <Timeline />
+        </div>
       </div>
     );
   }

@@ -15,7 +15,7 @@ export default function Avatar({
     return (
       <div
         className={
-          "inline-flex min-h-[1.8rem] min-w-[1.8rem] items-center justify-center overflow-hidden rounded-full bg-indigo-200 text-xl text-gray-800 " +
+          "inline-flex min-h-[1.8rem] min-w-[1.8rem] flex-none items-center justify-center overflow-hidden rounded-full bg-indigo-200 text-xl text-gray-800 " +
           (className || "")
         }
         style={style}
@@ -25,11 +25,11 @@ export default function Avatar({
     );
   }
   return (
-    <Image
+    <img
       src={user.profilePhotoURL}
       alt="プロフィール写真"
       className={
-        "min-h-[1.8rem] min-w-[1.8rem] rounded-full border-2 border-indigo-500 object-cover " +
+        "min-h-[1.8rem] min-w-[1.8rem] flex-none rounded-full border-2 border-indigo-500 object-cover " +
         (className || "")
       }
       style={style}

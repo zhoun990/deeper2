@@ -19,51 +19,51 @@ const register = {
       cookies,
     });
     const { user } = (await supabase.auth.getUser()).data;
-    if (user) {
-      const { data } = await supabase.from("User").select().eq("id", user.id);
-      if (!data || data?.length === 0) {
-        console.log(
-          "^_^ Log \n f:",
-          (await supabase.from("User").select().eq("username", username)).data
-        );
-        const { data } = await supabase
-          .from("User")
-          .select()
-          .eq("username", username);
-        if (!data || data?.length === 0) {
-          res.isUsernameAvailable = true;
-
-          if (
-            !(await prisma.user.create({
-              data: { id: user.id, username, bio, name: displayname },
-            }))
-          ) {
-            return res;
-          }
-          const data = await prisma.group.create({
+    if (!user) return res;
+    // if (
+    //   await prisma.user.findUnique({ where: { id: user.id } }).catch((err) => {
+    //     console.error("^_^ Log \n file: register.ts:30 \n err:", err);
+    //     return undefined;
+    //   })
+    // )
+    //   return res;
+    if (
+      await prisma.user.findUnique({ where: { username } }).catch((err) => {
+        console.error("^_^ Log \n file: register.ts:30 \n err:", err);
+        return undefined;
+      })
+    )
+      return res;
+    res.isUsernameAvailable = true;
+    await prisma
+      .$transaction(async (prisma) => {
+        await prisma.user.create({
+          data: { id: user.id, username, bio, name: displayname },
+        });
+        await prisma.group
+          .create({
             data: {
               title: "$$primary-tag$$",
               isPublic: false,
               allowJoin: true,
               isPrimary: true,
-            },
-          });
-          if (data)
-            await prisma.groupMember
-              .create({
-                data: {
-                  groupId: data.id,
+              members: {
+                create: {
                   memberId: user.id,
                   permission: ["EditGroupPermission", "Owner"],
                 },
-              })
-              .then((result) => {
-                console.log("^_^ Log \n file: route.ts:42 \n res:", result);
-                res.succeeded = true;
-              });
-        }
-      }
-    }
+              },
+            },
+          })
+          .then((result) => {
+            console.log("^_^ Log \n file: route.ts:42 \n res:", result);
+            res.succeeded = true;
+          });
+      })
+      .catch((err) => {
+        console.error("^_^ Log \n file: register.ts:30 \n err:", err);
+      });
+
     return res;
   },
 };

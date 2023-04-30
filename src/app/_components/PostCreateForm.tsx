@@ -1,9 +1,8 @@
 "use client";
 import { type User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useState, useEffect, FC } from "react";
+import { useState, type FormEvent } from "react";
 import PostCreateInput from "./PostCreateInput";
-import { useSupabase } from "./supabase-provider";
 import client from "~/utils/client";
 
 export default function PostCreateForm({ users = [] }: { users?: User[] }) {
@@ -12,7 +11,6 @@ export default function PostCreateForm({ users = [] }: { users?: User[] }) {
   const [permittedUsers, setPermittedUsers] = useState<
     { uid: string; level: number }[]
   >([]);
-
   const router = useRouter();
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,22 +18,30 @@ export default function PostCreateForm({ users = [] }: { users?: User[] }) {
       "post",
       "post"
     )({ text, permittedUsers, public: isPublic });
-    if (res.succeeded) {
+    if (res.succeeded && res.data) {
       setText("");
-      alert("投稿しました");
+      router.push(`/${res.data.author.username}/${res.data.id}`);
     } else {
+      console.log("^_^ Log \n file: PostCreateForm.tsx:21 \n res:", res);
+
       alert("失敗しました");
     }
   };
 
   return (
-    <form className="w-full max-w-lg space-y-6" onSubmit={onSubmit}>
+    <form
+      className="mx-auto max-w-2xl rounded-lg bg-gray-800 px-4 py-6"
+      onSubmit={onSubmit}
+    >
+      <label htmlFor="bio" className="mb-3 block text-xl font-bold text-white">
+        投稿を作成
+      </label>
       <PostCreateInput
         text={text}
         setText={setText}
-        title="What's happening?"
+        // title="What's happening?"
       />
-      <div className="flex flex-wrap">
+      <div className="my-4 flex flex-wrap">
         <div
           className="m-1 cursor-pointer select-none rounded-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 px-3 py-2 text-white"
           style={{
@@ -49,7 +55,8 @@ export default function PostCreateForm({ users = [] }: { users?: User[] }) {
           {isPublic ? "パブリック" : "プライベート"}
         </div>
         {users.map((user) => (
-          <div
+          <button
+            type="button"
             key={user.id}
             className="m-1 cursor-pointer select-none rounded-full bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 px-3 py-2 text-white"
             style={{
@@ -69,7 +76,7 @@ export default function PostCreateForm({ users = [] }: { users?: User[] }) {
             }}
           >
             @{user.username}
-          </div>
+          </button>
         ))}
       </div>
       <div>

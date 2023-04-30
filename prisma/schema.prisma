@@ -31,9 +31,9 @@ model Favorite {
   updatedAt       DateTime @default(now()) @updatedAt
   permissionLevel Int      @default(0)
   toId            String
-  to              User     @relation("FavoritedBy", fields: [toId], references: [id])
+  to              User     @relation("FavoritedBy", fields: [toId], references: [id], onDelete: Cascade)
   fromId          String
-  from            User     @relation("Favorite", fields: [fromId], references: [id])
+  from            User     @relation("Favorite", fields: [fromId], references: [id], onDelete: Cascade)
 
   @@id([fromId, toId])
 }
@@ -45,8 +45,8 @@ model Permission {
   level     Int      @default(0)
   postId    Int
   userId    String
-  post      Post     @relation("PermittedUsers", fields: [postId], references: [id])
-  user      User     @relation("Permissions", fields: [userId], references: [id])
+  post      Post     @relation("PermittedUsers", fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation("Permissions", fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {
@@ -54,12 +54,16 @@ model Post {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @default(now()) @updatedAt
   public         Int          @default(0)
-  follower       Int          @default(0)
+  publicReply    Int?
+  // follower       Int          @default(0)
   text           String       @db.VarChar(255)
   authorId       String
+  rootId         Int?
   replyId        Int?
-  author         User         @relation("Posts", fields: [authorId], references: [id])
-  reply          Post?         @relation("Replies", fields: [replyId], references: [id])
+  author         User         @relation("Posts", fields: [authorId], references: [id], onDelete: Cascade)
+  root           Post?        @relation("Root", fields: [rootId], references: [id], onDelete: SetNull)
+  reply          Post?        @relation("Replies", fields: [replyId], references: [id], onDelete: SetNull)
+  children       Post[]       @relation("Root")
   replies        Post[]       @relation("Replies")
   permittedUsers Permission[] @relation("PermittedUsers")
 }
@@ -81,9 +85,9 @@ model GroupMember {
   updatedAt  DateTime          @default(now()) @updatedAt
   permission GroupPermission[]
   memberId   String
-  member     User              @relation("Groups", fields: [memberId], references: [id])
+  member     User              @relation("Groups", fields: [memberId], references: [id], onDelete: Cascade)
   groupId    Int
-  group      Group             @relation(fields: [groupId], references: [id])
+  group      Group             @relation(fields: [groupId], references: [id], onDelete: Cascade)
   hidden     Boolean           @default(false)
 
   @@id([groupId, memberId])

@@ -24,7 +24,9 @@ export default function Register() {
         console.log("^_^ Log \n file: register.tsx:35 \n res:", res);
         setIsUsernameAvailable(res.isUsernameAvailable);
         if (res.succeeded) {
-          router.push("/");
+          router.refresh();
+          router.replace("/");
+
           // setStep(1);
         }
       });
@@ -33,7 +35,6 @@ export default function Register() {
   // switch (step) {
   //   case 0:
   return (
-    // <RedirectWithAuthState>
     <div className="flex flex-col items-center p-5">
       <form className="w-full max-w-lg space-y-6" onSubmit={onSubmit}>
         <div>
@@ -105,7 +106,6 @@ export default function Register() {
         </div>
       </form>
     </div>
-    // </RedirectWithAuthState>
   );
 
   //   default:

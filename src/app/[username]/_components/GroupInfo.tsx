@@ -34,7 +34,7 @@ export const GroupInfo = ({
     return (
       <>
         <div className="mt-2">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-white">
             あなたは#{group.title}#のメンバーです。
           </p>
         </div>

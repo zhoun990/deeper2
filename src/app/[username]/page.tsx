@@ -74,7 +74,7 @@ export default async function Home({
   // }
   return (
     <div className="flex h-screen flex-col overflow-hidden">
-      <div className="overflow-y-auto">
+      <div className="overflow-y-auto overflow-x-hidden">
         <div className="sticky top-0  bg-black">
           <ProfileView
             user={user}

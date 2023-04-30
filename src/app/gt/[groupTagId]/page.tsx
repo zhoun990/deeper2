@@ -1,8 +1,8 @@
 import { type GroupMember, type User } from "@prisma/client";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/headers";
-import Image from "next/image";
+import { cookies, headers } from "next/headers";
 import Link from "next/link";
+import Avatar from "~/app/_components/Avatar";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
 
@@ -56,17 +56,11 @@ const UserItem: React.FC<{
   <Link href={`/${user.member.username}`}>
     <div className="flex w-full items-center rounded-lg bg-gray-900 p-4 shadow-md">
       <div>
-        {user.member.profilePhotoURL ? (
-          <Image
-            src={user.member.profilePhotoURL}
-            alt="プロフィール写真"
-            className="h-12 w-12 rounded-full border-2 border-indigo-500 object-cover"
-          />
-        ) : (
-          <div className="inline-flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-indigo-200 text-xl text-gray-800">
-            {user.member.name?.[0]}
-          </div>
-        )}
+        {" "}
+        <Avatar
+          user={user.member}
+          className="h-12 w-12 border-2 border-indigo-500"
+        />
       </div>
       <div className="ml-4 text-left">
         <p className="text-lg font-semibold text-white">

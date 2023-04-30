@@ -11,7 +11,6 @@ export default async function PostCreateView({ post }: { post?: Post }) {
     cookies,
   });
   const { user } = (await supabase.auth.getUser()).data;
-  // const users = (await supabase.from("User").select().neq("id", user?.id)).data;
   const users = (await prisma.favorite.findMany({
     where: { from: { id: user?.id } },
     include: { to: true },

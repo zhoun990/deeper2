@@ -41,18 +41,18 @@ export const Timeline = async () => {
   });
   console.log("^_^ Log \n file: page.tsx:79 \n posts:", posts.length);
   return (
-    <>
+    <div className="mx-auto max-w-2xl">
       {posts
         .sort((a, b) => {
           return b.createdAt.getTime() - a.createdAt.getTime();
         })
         .map((post) => (
-          <div key={post.id} className="m-4">
+          <div key={post.id} className="my-4">
             <ClientLink href={`/${post.author.username}/${post.id}`}>
               <PostView post={post} profile={post.author} />
             </ClientLink>
           </div>
         ))}
-    </>
+    </div>
   );
 };

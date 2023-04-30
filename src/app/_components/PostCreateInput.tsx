@@ -1,5 +1,6 @@
 "use client";
 import { type Dispatch, type SetStateAction } from "react";
+import { ProfileInPost } from "./ProfileInPost";
 
 export default function PostCreateInput({
   title,

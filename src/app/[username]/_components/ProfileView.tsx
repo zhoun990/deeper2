@@ -1,8 +1,9 @@
-import { type GroupMember, type Group, type User } from "@prisma/client";
+import { type User } from "@prisma/client";
 import { type User as AuthUser } from "@supabase/auth-helpers-nextjs";
-import Image from "next/image";
 import { Suspense } from "react";
 import { BellButton } from "./BellButton";
+import EditProfileModal from "./EditProfileModal";
+import Avatar from "~/app/_components/Avatar";
 
 export const ProfileView = ({
   user,
@@ -38,21 +39,16 @@ export const ProfileView = ({
             //   // updateProfile({ username, website, avatar_url: url });
             // }}
           /> */}
-          {profilePhotoURL ? (
-            <Image
-              src={profilePhotoURL}
-              className="h-28 w-28 rounded-full border-2 border-white object-cover"
-              alt="プロフィール画像"
-            />
-          ) : (
-            <div className="h-20 w-20 flex-none rounded-full border-2 border-gray-300 bg-gray-600 lg:h-28 lg:w-28"></div>
-          )}
+          <Avatar
+            user={profile}
+            className="h-20 w-20 border-2 border-white lg:h-28 lg:w-28"
+          />
           <div>
             <h3 className="text-xl font-semibold lg:text-2xl">{name}</h3>
             <div className="text-gray-400">{username}</div>
             {role === "ADMIN" && <div>管理者</div>}
           </div>
-
+          <EditProfileModal user={profile} />
           {
             // <div className="flex h-full grow justify-around bg-black p-4">
             //   <div className="flex w-1/2 flex-col items-center border-r-2 border-white">

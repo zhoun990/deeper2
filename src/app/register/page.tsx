@@ -1,12 +1,11 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { headers, cookies } from "next/dist/client/components/headers";
-import { type Database } from "~/lib/database.types";
-import Login from "./login";
-import { RedirectWithAuthState } from "../_components/RedirectWithAuthState";
-import Register from "./register";
+import { cookies, headers } from "next/dist/client/components/headers";
+import { Inter } from "next/font/google";
 import { redirect } from "next/navigation";
+import Login from "./login";
+import Register from "./register";
+import { type Database } from "~/lib/database.types";
+import { prisma } from "~/lib/prisma";
 const inter = Inter({ subsets: ["latin"] });
 export const revalidate = 0;
 export default async function Home() {
@@ -16,11 +15,10 @@ export default async function Home() {
   });
   const user = await supabase.auth.getUser().then((res) => res.data.user);
   if (user) {
-    const { data } = await supabase.from("User").select().eq("id", user.id);
-    if (data && data?.length > 0) {
-      console.log("^_^ Log \n file: RedirectWithAuthState.tsx:26 \n push:/");
+    if (await prisma.user.findUnique({ where: { id: user.id } })) {
       redirect("/");
     }
+    return <Register />;
   }
-  return user ? <Register /> : <Login />;
+  return <Login />;
 }

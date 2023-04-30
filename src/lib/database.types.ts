@@ -148,7 +148,9 @@ export interface Database {
           follower: number
           id: number
           public: number
+          publicReply: number | null
           replyId: number | null
+          rootId: number | null
           text: string
           updatedAt: string
         }
@@ -158,7 +160,9 @@ export interface Database {
           follower?: number
           id?: number
           public?: number
+          publicReply?: number | null
           replyId?: number | null
+          rootId?: number | null
           text: string
           updatedAt?: string
         }
@@ -168,7 +172,9 @@ export interface Database {
           follower?: number
           id?: number
           public?: number
+          publicReply?: number | null
           replyId?: number | null
+          rootId?: number | null
           text?: string
           updatedAt?: string
         }
