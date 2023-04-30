@@ -2,17 +2,29 @@
 
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import StyledInput from "../_styled_components/StyledInput";
+import StyledTextarea from "../_styled_components/StyledTextarea";
 import client from "~/utils/client";
 export default function Register() {
   const [step, setStep] = useState(0);
   const [username, setUsername] = useState("");
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
+  const [isUsernameInvalid, setIsUsernameInvalid] = useState(false);
   const [displayname, setDisplayname] = useState("");
   const [bio, setBio] = useState("");
+  const [processing, setProcessing] = useState(false);
   const router = useRouter();
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (username && displayname) {
+
+    if (
+      username &&
+      displayname &&
+      validate(username) &&
+      !isUsernameInvalid &&
+      !processing
+    ) {
+      setProcessing(true);
       await client(
         "register",
         "post"
@@ -20,87 +32,105 @@ export default function Register() {
         username,
         displayname,
         bio,
-      }).then((res) => {
-        console.log("^_^ Log \n file: register.tsx:35 \n res:", res);
-        setIsUsernameAvailable(res.isUsernameAvailable);
-        if (res.succeeded) {
-          router.refresh();
-          router.replace("/");
+      })
+        .then((res) => {
+          console.log("^_^ Log \n file: register.tsx:35 \n res:", res);
+          setIsUsernameAvailable(res.isUsernameAvailable);
+          if (res.succeeded) {
+            router.refresh();
+            router.replace("/");
 
-          // setStep(1);
-        }
-      });
+            // setStep(1);
+          }
+        })
+        .finally(() => {
+          setProcessing(false);
+        });
     }
   };
+  const validate = (str: string) => /^[A-Za-z0-9][A-Za-z0-9_]{2,29}$/.test(str);
+
   // switch (step) {
   //   case 0:
   return (
     <div className="flex flex-col items-center p-5">
-      <form className="w-full max-w-lg space-y-6" onSubmit={onSubmit}>
+      <form className="w-full max-w-lg" onSubmit={onSubmit}>
         <div>
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="block text-sm font-medium text-white"
           >
             ユーザーネーム
           </label>
           <div className="mt-1 flex items-center">
-            <div className="mr-1 block rounded-l-lg rounded-r-sm border border-transparent bg-gray-300 p-2 text-base text-neutral-700">
+            <div className="mr-1 block rounded-l-lg rounded-r-sm border border-transparent bg-gray-600 p-2 text-base text-white">
               @
             </div>
-            <input
+            <StyledInput
               id="username"
               name="username"
               required={true}
-              className="block w-full rounded-l-sm rounded-r-lg border border-transparent bg-gray-300 px-5 py-2 text-base text-neutral-700 transition duration-500 ease-in-out placeholder:text-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-              onChange={(e) => {
-                setUsername(e.target.value);
+              className="rounded-l-sm rounded-r-lg"
+              onChangeText={(text) => {
+                setIsUsernameInvalid(!validate(text));
+                setUsername(text);
                 setIsUsernameAvailable(true);
               }}
             />
           </div>
-          <div className="mt-1 h-5 text-center text-red-500">
-            {!isUsernameAvailable && "このユーザーネームは既に利用されています"}
+          <div
+            className={`my-3 min-h-[40px] text-left text-sm font-semibold text-red-500 transition`}
+          >
+            {isUsernameInvalid
+              ? "ユーザーネームは3文字以上30文字以下で、半角英数字とアンダースコアのみが利用可能です。"
+              : !isUsernameAvailable &&
+                "このユーザーネームは既に利用されています。"}
           </div>
         </div>
-        <div>
+        <div className="pb-5">
           <label
             htmlFor="displayname"
             className="block text-sm font-medium text-white"
           >
             表示する名前
           </label>
-          <div className="mt-1">
-            <input
-              id="displayname"
-              name="displayname"
-              required={true}
-              className="block w-full rounded-lg border border-transparent bg-gray-300 px-5 py-2 text-base text-neutral-700 transition duration-500 ease-in-out placeholder:text-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-              onChange={(e) => {
-                setDisplayname(e.target.value);
-              }}
-            />
-          </div>
+          <StyledInput
+            id="displayname"
+            name="displayname"
+            required={true}
+            onChangeText={setDisplayname}
+            className="mt-1"
+          />
         </div>
-        <div>
+        <div className="pb-5">
           <label htmlFor="bio" className="block text-sm font-medium text-white">
             自己紹介
           </label>
           <div className="mt-1">
-            <textarea
+            <StyledTextarea
               rows={3}
               id="bio"
               name="bio"
-              className="block w-full rounded-lg border border-transparent bg-gray-300 px-5 py-2 text-base text-neutral-700 transition duration-500 ease-in-out placeholder:text-gray-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-300"
-              onChange={(e) => {
-                setBio(e.target.value);
-              }}
+              onChangeText={setBio}
             />
           </div>
         </div>
 
         <div>
-          <button className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-10 py-4 text-center text-base font-medium text-white transition duration-500 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          <button
+            className="flex w-full items-center justify-center rounded-xl bg-blue-600 px-10 py-4 text-center text-base font-medium text-white transition duration-500 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            style={{
+              opacity:
+                username &&
+                displayname &&
+                validate(username) &&
+                !isUsernameInvalid &&
+                !processing &&
+                isUsernameAvailable
+                  ? 1
+                  : 0.5,
+            }}
+          >
             プロフィールを作成
           </button>
         </div>
