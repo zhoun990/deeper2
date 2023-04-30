@@ -31,7 +31,7 @@ export default function LogoutItem() {
           d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
         ></path>
       </svg>
-      <span className="ml-4"> ログアウト</span>
+      <span className="ml-4">ログアウト</span>
     </button>
   );
 }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Fragment, Suspense, useState, type ReactNode } from "react";
 import { GroupCreate } from "./GroupCreate";
 import { GroupInfo } from "./GroupInfo";
-import Spin from "~/app/_components/Spin";
+import Spin from "~/app/_styled_components/Spin";
 export function GroupModal({
   children,
   group,

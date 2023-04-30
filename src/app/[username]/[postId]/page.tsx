@@ -3,13 +3,13 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { cookies, headers } from "next/dist/client/components/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { PostNotFound } from "../../_components/PostNotFound";
-import PostView from "../../_components/PostView";
+import { PostNotFound } from "../../_post_components/PostNotFound";
+import PostView from "../../_post_components/PostView";
 import ReplyCreateForm from "./_components/ReplyCreateForm";
-import Avatar from "~/app/_components/Avatar";
+import Avatar from "~/app/_styled_components/Avatar";
 import ClientLink from "~/app/_components/ClientLink";
-import PostCompactView from "~/app/_components/PostCompactView";
-import PostLineView from "~/app/_components/PostLineView";
+import PostCompactView from "~/app/_post_components/PostCompactView";
+import PostLineView from "~/app/_post_components/PostLineView";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
 import formatDate from "~/utils/formatDate";

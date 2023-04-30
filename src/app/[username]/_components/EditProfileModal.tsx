@@ -4,7 +4,8 @@ import { Transition, Dialog } from "@headlessui/react";
 import { type User } from "@prisma/client";
 import { Fragment, Suspense, useState } from "react";
 import EditProfileForm from "./EditProfileForm";
-import Spin from "~/app/_components/Spin";
+import IconButton from "~/app/_styled_components/IconButton";
+import Spin from "~/app/_styled_components/Spin";
 
 export default function EditProfileModal({ user }: { user: User }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,13 +14,17 @@ export default function EditProfileModal({ user }: { user: User }) {
   }
   return (
     <>
-      <button
+      <IconButton
         onClick={() => {
           setIsOpen((c) => !c);
         }}
+        className="flex-none"
       >
-        プロフィールを編集
-      </button>
+        プロフィール
+        <br />
+        を編集
+      </IconButton>
+
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -46,10 +51,7 @@ export default function EditProfileModal({ user }: { user: User }) {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-md overflow-hidden shadow-xl transition-all">
-                  <EditProfileForm
-                    {...{user}}
-                    onClose={closeModal}
-                  />
+                  <EditProfileForm {...{ user }} onClose={closeModal} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

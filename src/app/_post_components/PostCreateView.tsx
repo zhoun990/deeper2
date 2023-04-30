@@ -11,12 +11,14 @@ export default async function PostCreateView({ post }: { post?: Post }) {
     cookies,
   });
   const { user } = (await supabase.auth.getUser()).data;
-  const users = (await prisma.favorite.findMany({
-    where: { from: { id: user?.id } },
-    include: { to: true },
-  })).map((favorite) => favorite.to);
+  const users = (
+    await prisma.favorite.findMany({
+      where: { from: { id: user?.id } },
+      include: { to: true },
+    })
+  ).map((favorite) => favorite.to);
   return (
-    <div className="flex flex-col items-center p-5">
+    <div className="p-5">
       <PostCreateForm users={users || []} />
     </div>
   );

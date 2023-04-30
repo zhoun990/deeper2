@@ -2,10 +2,10 @@
 import { type User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Avatar from "~/app/_components/Avatar";
-import StyledInput from "~/app/_components/StyledInput";
-import StyledTextarea from "~/app/_components/StyledTextarea";
 import { useSupabase } from "~/app/_components/supabase-provider";
+import Avatar from "~/app/_styled_components/Avatar";
+import StyledInput from "~/app/_styled_components/StyledInput";
+import StyledTextarea from "~/app/_styled_components/StyledTextarea";
 import client from "~/utils/client";
 import { compressImage } from "~/utils/compress";
 

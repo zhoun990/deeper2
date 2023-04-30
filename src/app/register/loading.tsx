@@ -1,6 +1,6 @@
-import Spin from "../_components/Spin";
+import Spin from "../_styled_components/Spin";
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.
-  return <Spin/>
+  return <Spin />;
 }

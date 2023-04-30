@@ -1,7 +1,7 @@
 "use client";
 import { type User } from "@prisma/client";
 import { useEffect, useState } from "react";
-import IconButton from "~/app/_components/IconButton";
+import IconButton from "~/app/_styled_components/IconButton";
 import client from "~/utils/client";
 export const BellButton = ({
   // isBellMarked,

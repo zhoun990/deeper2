@@ -1,19 +1,14 @@
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/dist/client/components/headers";
 import { Inter } from "next/font/google";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import PostCreateView from "./_components/PostCreateView";
 import { Timeline } from "./_components/Timeline";
-import Logout from "./_components/logout";
+import PostCreateView from "./_post_components/PostCreateView";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
 const inter = Inter({ subsets: ["latin"] });
 export const revalidate = 0;
 export default async function Home() {
-  // await prisma.post.findMany().then((res) => {
-  //   console.log("^_^ Log \n file: page.tsx:10 \n res:", res);
-  // });
   const supabase = createServerComponentSupabaseClient<Database>({
     headers,
     cookies,
@@ -33,7 +28,7 @@ export default async function Home() {
 
         {/* <Logout />
         <Link href={`/${data.username}`}>Profile</Link> */}
-        <div className="grow 2xl:h-screen 2xl:overflow-y-auto p-5">
+        <div className="grow p-5 2xl:h-screen 2xl:overflow-y-auto">
           {/* @ts-expect-error Server Component */}
           <Timeline />
         </div>

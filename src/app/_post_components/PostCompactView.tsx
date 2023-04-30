@@ -2,7 +2,7 @@
 import { type Post, type User } from "@prisma/client";
 import Link from "next/link";
 import { type CSSProperties } from "react";
-import Avatar from "./Avatar";
+import Avatar from "../_styled_components/Avatar";
 import formatDate from "~/utils/formatDate";
 
 export default function PostCompactView({
@@ -39,18 +39,23 @@ export default function PostCompactView({
       </div>
       <div className="mb-1 flex grow flex-col overflow-hidden">
         <div className="flex">
-          <div className="text-xs">
-            <Link href={`/${profile.username}`}>
-              <span className="font-bold">{profile.name}</span>
-              <span> @{profile.username}</span>
-            </Link>
-          </div>
-          <div className="ml-auto text-xs text-gray-400">
+          {/* <div className="text-xs"> */}
+          <Link
+            href={`/${profile.username}`}
+            className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
+          >
+            <span className="font-bold">{profile.name}</span>
+            <span> @{profile.username}</span>
+          </Link>
+          {/* </div> */}
+          <div className="ml-auto flex-none text-xs text-gray-400">
             {formatDate(post.createdAt)}
           </div>
         </div>
 
-        <div className="my-2 whitespace-pre-wrap break-words text-white">{post.text}</div>
+        <div className="my-2 whitespace-pre-wrap break-words text-white">
+          {post.text}
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
+import PostView from "../_post_components/PostView";
 import ClientLink from "./ClientLink";
-import PostView from "./PostView";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
 

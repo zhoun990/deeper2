@@ -2,9 +2,9 @@
 import { type Post, type User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState, useEffect, FC } from "react";
-import PostCreateInput from "~/app/_components/PostCreateInput";
-import { ProfileInPost } from "~/app/_components/ProfileInPost";
-import Switch from "~/app/_components/Switch";
+import PostCreateInput from "~/app/_post_components/PostCreateInput";
+import { ProfileInPost } from "~/app/_post_components/ProfileInPost";
+import Switch from "~/app/_styled_components/Switch";
 import client from "~/utils/client";
 
 export default function ReplyCreateForm({

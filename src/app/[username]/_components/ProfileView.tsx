@@ -3,7 +3,7 @@ import { type User as AuthUser } from "@supabase/auth-helpers-nextjs";
 import { Suspense } from "react";
 import { BellButton } from "./BellButton";
 import EditProfileModal from "./EditProfileModal";
-import Avatar from "~/app/_components/Avatar";
+import Avatar from "~/app/_styled_components/Avatar";
 
 export const ProfileView = ({
   user,
@@ -43,12 +43,15 @@ export const ProfileView = ({
             user={profile}
             className="h-20 w-20 border-2 border-white lg:h-28 lg:w-28"
           />
-          <div>
-            <h3 className="text-xl font-semibold lg:text-2xl">{name}</h3>
-            <div className="text-gray-400">{username}</div>
-            {role === "ADMIN" && <div>管理者</div>}
+          <div className="grow overflow-hidden">
+            <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold lg:text-2xl">
+              {name}
+            </div>
+            <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-gray-400">
+              {username}
+            </div>
+           {role === "ADMIN" && <div>管理者</div>}
           </div>
-          <EditProfileModal user={profile} />
           {
             // <div className="flex h-full grow justify-around bg-black p-4">
             //   <div className="flex w-1/2 flex-col items-center border-r-2 border-white">
@@ -70,14 +73,16 @@ export const ProfileView = ({
             // </div>
           }
 
-          {!!user && !isMyPage && (
-            <div className="flex h-full grow justify-around bg-black p-4">
+          {!!user && !isMyPage ? (
+            <div className="flex grow justify-around">
               <div className="flex w-full flex-col items-center">
-                <Suspense fallback={<p>Loading feed...</p>}>
+                <Suspense fallback={<></>}>
                   <BellButton profile={profile} />
                 </Suspense>
               </div>
             </div>
+          ) : (
+            <EditProfileModal user={profile} />
           )}
         </div>
         <div className="mt-6">

@@ -3,7 +3,7 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { cookies, headers } from "next/dist/client/components/headers";
 import Link from "next/link";
 import ClientLink from "../_components/ClientLink";
-import PostView from "../_components/PostView";
+import PostView from "../_post_components/PostView";
 import { GroupModal } from "./_components/GroupModal";
 import { ProfileView } from "./_components/ProfileView";
 import { UserPageNotFound } from "./_components/UserPageNotFound";
@@ -73,8 +73,7 @@ export default async function Home({
   //   profile.groups = profile.groups.filter((member) => !member.hidden);
   // }
   return (
-    <div className="flex h-screen flex-col overflow-hidden">
-      <div className="overflow-y-auto overflow-x-hidden">
+    <div className="mx-auto flex max-w-2xl flex-col">
         <div className="sticky top-0  bg-black">
           <ProfileView
             user={user}
@@ -115,7 +114,6 @@ export default async function Home({
               </ClientLink>
             </div>
           ))}
-      </div>
     </div>
   );
 }

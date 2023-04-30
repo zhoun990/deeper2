@@ -22,7 +22,10 @@ export default function PostLineView({
       }
       style={style}
     >
-      <Link href={`/${profile.username}`} className="text-sm text-blue-500">
+      <Link
+        href={`/${profile.username}`}
+        className="w-[4rem] overflow-hidden text-ellipsis whitespace-nowrap text-sm text-blue-500"
+      >
         @{profile.username}
       </Link>
       <div className="ml-2 w-full overflow-hidden text-ellipsis whitespace-nowrap text-white">

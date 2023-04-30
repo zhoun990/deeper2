@@ -5,6 +5,7 @@ import { type ReactNode } from "react";
 import LogoutItem from "./LogoutItem";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
+import Avatar from "../_styled_components/Avatar";
 
 export const Drawer = async () => {
   const supabase = createServerComponentSupabaseClient<Database>({
@@ -98,13 +99,14 @@ export const Drawer = async () => {
               className="group block w-full shrink-0"
             >
               <div className="flex items-center ">
-                <div className="inline-block h-9 w-9 rounded-full bg-gray-600"></div>
-                <div className="ml-3 flex flex-col justify-center">
-                  {/* <p className="text-sm font-medium text-neutral-200">
-                {profile?.name}
-              </p> */}
-                  <p className="text-sm font-semibold">{profile.name}</p>
-                  <p className="text-xs text-gray-400">{profile.username}</p>
+                <Avatar user={profile} className="h-9 w-9"/>
+                <div className="ml-3 flex flex-col justify-center overflow-hidden">
+                  <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
+                    {profile.name}
+                  </p>
+                  <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-400">
+                    {profile.username}
+                  </p>
                 </div>
               </div>
             </Link>
@@ -114,13 +116,13 @@ export const Drawer = async () => {
                 href={"/register"}
                 className="block items-center rounded-xl border-2 border-white px-8 py-2.5 text-center text-base font-medium text-blue-600 shadow-md transition duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               >
-                SignIn
+                ログイン
               </Link>
               <Link
                 href={"/register"}
                 className="block items-center rounded-xl bg-blue-600 px-8 py-3 text-center text-base font-medium text-white transition duration-500 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
-                SignUp
+                登録
               </Link>
             </div>
           )}

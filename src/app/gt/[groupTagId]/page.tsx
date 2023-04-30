@@ -2,7 +2,7 @@ import { type GroupMember, type User } from "@prisma/client";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
-import Avatar from "~/app/_components/Avatar";
+import Avatar from "~/app/_styled_components/Avatar";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
 
