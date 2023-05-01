@@ -66,7 +66,7 @@ export default async function Home({
     },
   });
   if (!profile) {
-    return <UserPageNotFound />;
+    return <UserPageNotFound username={params.username} />;
   }
   const { groups } = profile;
   // if (profile.id !== user?.id) {

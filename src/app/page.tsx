@@ -17,7 +17,7 @@ export default async function Home() {
   if (user) {
     if (!(await prisma.user.findUnique({ where: { id: user.id } }))) {
       console.warn("redirect from '/'. no user data:", user);
-      redirect("/register");
+      redirect("/auth/signup");
     }
     return (
       <div className="flex flex-col 2xl:flex-row-reverse">

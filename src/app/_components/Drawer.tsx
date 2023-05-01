@@ -2,10 +2,10 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { type ReactNode } from "react";
+import Avatar from "../_styled_components/Avatar";
 import LogoutItem from "./LogoutItem";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
-import Avatar from "../_styled_components/Avatar";
 
 export const Drawer = async () => {
   const supabase = createServerComponentSupabaseClient<Database>({
@@ -23,8 +23,9 @@ export const Drawer = async () => {
       <div className="flex grow flex-col overflow-y-auto bg-neutral-800 pt-5">
         <div className="flex shrink-0 flex-col items-center px-4">
           <Link href="/" className="px-8 text-left focus:outline-none">
-            <h2 className="block cursor-pointer p-2 text-xl font-medium tracking-tighter text-neutral-200 transition duration-500 ease-in-out hover:text-neutral-200">
-              Default_is_Private
+            <h2 className="block cursor-pointer p-2 text-2xl font-extrabold tracking-tighter text-neutral-200 transition duration-500 ease-in-out hover:text-neutral-200">
+              {/* Default_is_Private */}
+              DiP
             </h2>
           </Link>
         </div>
@@ -99,7 +100,7 @@ export const Drawer = async () => {
               className="group block w-full shrink-0"
             >
               <div className="flex items-center ">
-                <Avatar user={profile} className="h-9 w-9"/>
+                <Avatar user={profile} className="h-9 w-9" />
                 <div className="ml-3 flex flex-col justify-center overflow-hidden">
                   <p className="w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-semibold">
                     {profile.name}
@@ -113,13 +114,13 @@ export const Drawer = async () => {
           ) : (
             <div className=" flex w-full shrink-0 list-none items-center justify-around gap-2 lg:ml-auto">
               <Link
-                href={"/register"}
-                className="block items-center rounded-xl border-2 border-white px-8 py-2.5 text-center text-base font-medium text-blue-600 shadow-md transition duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                href={"/auth"}
+                className="block items-center rounded-xl border-2 border-white bg-gray-600 px-8 py-2.5 text-center text-base font-medium text-white shadow-md transition duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               >
                 ログイン
               </Link>
               <Link
-                href={"/register"}
+                href={"/auth/signup"}
                 className="block items-center rounded-xl bg-blue-600 px-8 py-3 text-center text-base font-medium text-white transition duration-500 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 登録

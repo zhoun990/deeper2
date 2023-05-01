@@ -3,13 +3,13 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { cookies, headers } from "next/dist/client/components/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { PostNotFound } from "../../_post_components/PostNotFound";
+import { PostNotFound } from "../../_post_components/PostPageNotFound";
 import PostView from "../../_post_components/PostView";
 import ReplyCreateForm from "./_components/ReplyCreateForm";
-import Avatar from "~/app/_styled_components/Avatar";
 import ClientLink from "~/app/_components/ClientLink";
 import PostCompactView from "~/app/_post_components/PostCompactView";
 import PostLineView from "~/app/_post_components/PostLineView";
+import Avatar from "~/app/_styled_components/Avatar";
 import { type Database } from "~/lib/database.types";
 import { prisma } from "~/lib/prisma";
 import formatDate from "~/utils/formatDate";
@@ -38,6 +38,12 @@ export default async function Home({
     take: 10,
     orderBy: { createdAt: "desc" },
   });
+  if (
+    typeof Number(params.postId) !== "number" ||
+    Number.isNaN(Number(params.postId))
+  ) {
+    return <PostNotFound />;
+  }
   //FIX:自分のリプライにリプライすると自分しか見れなくなる
   const post = await prisma.post.findFirst({
     where: {
