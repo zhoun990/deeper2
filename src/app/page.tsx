@@ -14,21 +14,21 @@ export default async function Home() {
     cookies,
   });
   const { user } = (await supabase.auth.getUser()).data;
-  if (user) {
-    if (!(await prisma.user.findUnique({ where: { id: user.id } }))) {
+  if (user?.id) {
+    if (!(await prisma.user.findFirst({ where: { id: user.id } }))) {
       console.warn("redirect from '/'. no user data:", user);
       redirect("/auth/signup");
     }
     return (
       <div className="flex flex-col 2xl:flex-row-reverse">
-        <div className="2xl:sticky 2xl:top-0">
+        <div className="2xl:sticky 2xl:top-0 2xl:w-1/3">
           {/* @ts-expect-error Server Component */}
           <PostCreateView />
         </div>
 
         {/* <Logout />
         <Link href={`/${data.username}`}>Profile</Link> */}
-        <div className="grow p-5 2xl:h-screen 2xl:overflow-y-auto">
+        <div className="grow border p-5 2xl:h-screen 2xl:overflow-y-auto">
           {/* @ts-expect-error Server Component */}
           <Timeline />
         </div>

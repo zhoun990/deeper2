@@ -40,11 +40,12 @@ export default function Register() {
           if (res.succeeded) {
             router.refresh();
             router.replace("/");
-
             // setStep(1);
+          } else {
+            setProcessing(false);
           }
         })
-        .finally(() => {
+        .catch(() => {
           setProcessing(false);
         });
     }

@@ -15,10 +15,11 @@ export const Drawer = async () => {
   const user = await supabase.auth.getUser().then((res) => res.data.user);
   const profile =
     user &&
-    (await prisma.user.findUnique({
+    (await prisma.user.findFirst({
       where: { id: user.id },
     }));
   return (
+    //iPhoneで高さはみ出す
     <div className="flex w-64 flex-col">
       <div className="flex grow flex-col overflow-y-auto bg-neutral-800 pt-5">
         <div className="flex shrink-0 flex-col items-center px-4">
